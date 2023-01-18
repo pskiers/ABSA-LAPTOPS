@@ -5,18 +5,18 @@ from transformers import BertModel
 
 class BasicBert(nn.Module):
 
-  def __init__(self, n_classes):
+  def __init__(self, n_classes, dropout):
     super().__init__()
     self.bert = BertModel.from_pretrained("bert-base-cased")
     self.bert.requires_grad_(False)
-    self.drop = nn.Dropout(p=0.6)
+    self.drop = nn.Dropout(p=dropout)
 
     self.lin1 = nn.Linear(768, 256)
-    self.drp1 = nn.Dropout(0.6)
+    self.drp1 = nn.Dropout(dropout)
     self.bn1 = nn.BatchNorm1d(256)
 
     self.lin2 = nn.Linear(256, 1)
-    self.drp2 = nn.Dropout(0.6)
+    self.drp2 = nn.Dropout(dropout)
     self.bn2 = nn.BatchNorm1d(1)
 
     self.output = nn.Linear(75 + 4, n_classes)
